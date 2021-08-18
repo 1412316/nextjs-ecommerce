@@ -12,7 +12,7 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     const firstLogin = localStorage.getItem('firstLogin')
     if (firstLogin) {
-      getData('auth/accessToken').then(res => {console.log(res)
+      getData('auth/accessToken').then(res => {
         if (res.err) {
           return localStorage.removeItem('firstLogin')
         }
