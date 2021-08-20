@@ -1,9 +1,12 @@
-import { useEffect, useRef } from "react"
-import { postData } from '../utils/fetchData'
+import { useEffect, useRef, useContext } from "react"
+import { patchData } from '../utils/fetchData'
+import { DataContext } from "../store/GlobalState"
+import { updateItem } from "../store/Actions"
 
-const paypalBtn = ({total, address, mobile, state, dispatch}) => {
+const paypalBtn = ({ order }) => {
   const refPaypalBtn = useRef()
-  const { cart, auth } = state
+  const { state, dispatch } = useContext(DataContext)
+  const { auth, orders } = state
 
   useEffect(() => {
     paypal.Buttons({
@@ -12,7 +15,7 @@ const paypalBtn = ({total, address, mobile, state, dispatch}) => {
         return actions.order.create({
           purchase_units: [{
             amount: {
-              value: total
+              value: order.total
             }
           }]
         });
@@ -27,7 +30,7 @@ const paypalBtn = ({total, address, mobile, state, dispatch}) => {
         })
         return actions.order.capture().then(function (details) {
 
-          postData('order', { address, mobile, cart, total }, auth.token)
+          patchData(`order/${order._id}`, null, auth.token)
           .then(res => {
             if (res.err) {
               return dispatch({
@@ -38,10 +41,11 @@ const paypalBtn = ({total, address, mobile, state, dispatch}) => {
               })
             }
 
-            dispatch({
-              type: 'ADD_CART',
-              payload: []
-            })
+            // Update trả tiền rồi, thêm ngày trả tiền
+            dispatch(updateItem(orders.auth, order._id, {
+              ...order, paid: true, dateOfPayment: new Date().toISOString()
+            }, 'ADD_ORDERS'))
+
             return dispatch({
               type: 'NOTIFY',
               payload: {

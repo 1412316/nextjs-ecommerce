@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
 import Users from '../models/userModel'
 
-
 const auth = async (req, res) => {
   const token = req.headers.authorization;
   if (!token) {
@@ -14,7 +13,7 @@ const auth = async (req, res) => {
   }
 
   const user = await Users.findOne({ _id: decode.id })
-  return { id: user._id }
+  return { id: user._id, role: user.role, root: user.root }
 }
 
 export default auth
