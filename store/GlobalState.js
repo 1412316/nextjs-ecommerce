@@ -30,10 +30,7 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     const __next__cart01 = JSON.parse(localStorage.getItem('__next__cart01'))
     if (__next__cart01) {
-      dispatch({
-        type: 'ADD_CART',
-        payload: __next__cart01
-      })
+      dispatch({ type: 'ADD_CART', payload: __next__cart01 })
     }
   }, [])
 
@@ -46,46 +43,24 @@ export const DataProvider = ({ children }) => {
       getData('order', auth.token)
         .then(res => {
           if (res.err) {
-            return dispatch({
-              type: 'NOTIFY',
-              payload: {
-                error: res.err
-              }
-            })
+            return dispatch({ type: 'NOTIFY', payload: { error: res.err }})
           }
-          dispatch({
-            type: 'ADD_ORDERS',
-            payload: res.orders
-          })
+          dispatch({ type: 'ADD_ORDERS', payload: res.orders })
         })
       
       if (auth.user.role === 'admin') {
         getData('user', auth.token)
         .then(res => {
           if (res.err) {
-            return dispatch({
-              type: 'NOTIFY',
-              payload: {
-                error: res.err
-              }
-            })
+            return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
           }
-          dispatch({
-            type: 'ADD_USERS',
-            payload: res.users
-          })
+          dispatch({ type: 'ADD_USERS', payload: res.users })
         })
       }
     }
     else {
-      dispatch({
-        type: 'ADD_ORDERS',
-        payload: []
-      })
-      dispatch({
-        type: 'ADD_USERS',
-        payload: []
-      })
+      dispatch({ type: 'ADD_ORDERS', payload: [] })
+      dispatch({ type: 'ADD_USERS', payload: [] })
     }
   }, [auth.token])
 

@@ -7,22 +7,12 @@ const OrderDetail = ({ orderDetail, state, dispatch }) => {
   const { auth, orders } = state
 
   const handleDelivered = (order) => {
-    dispatch({
-      type: 'NOTIFY',
-      payload: {
-        loading: true
-      }
-    })
+    dispatch({ type: 'NOTIFY', payload: { loading: true } })
     
     patchData(`order/delivered/${order._id}`, null, auth.token)
       .then(res => {
         if (res.err) {
-          return dispatch({
-            type: 'NOTIFY',
-            payload: {
-              error: res.err
-            }
-          })
+          return dispatch({ type: 'NOTIFY', payload: { error: res.err }})
         }
         const { paid, dateOfPayment, method, delivered } = res.result
         dispatch(updateItem(orders, order._id, {
@@ -30,12 +20,7 @@ const OrderDetail = ({ orderDetail, state, dispatch }) => {
           paid, dateOfPayment, method, delivered
           }, 'ADD_ORDERS')
         )
-        return dispatch({
-          type: 'NOTIFY',
-          payload: {
-            success: res.msg
-          }
-        })
+        return dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
       })
   }
 

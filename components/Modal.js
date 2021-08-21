@@ -12,26 +12,13 @@ const Modal = () => {
       deleteData(`user/${modal.id}`, auth.token)
         .then(res => {
           if (res.err) {
-            return dispatch({
-              type: 'NOTIFY',
-              payload: {
-                error: res.err
-              }
-            })
+            return dispatch({ type: 'NOTIFY', payload: { error: res.err }})
           }
-          return dispatch({
-            type: 'NOTIFY',
-            payload: {
-              success: res.msg
-            }
-          })
+          return dispatch({ type: 'NOTIFY', payload: { success: res.msg }})
         })
     }
     dispatch(deleteItem(modal.data, modal.id, modal.type))
-    dispatch({
-      type: 'ADD_MODAL',
-      payload: {}
-    })
+    dispatch({ type: 'ADD_MODAL', payload: {} })
   }
 
   return (

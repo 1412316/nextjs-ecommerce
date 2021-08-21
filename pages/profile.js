@@ -34,10 +34,7 @@ const Profile = () => {
       ...data,
       [name]: value
     })
-    dispatch({
-      type: 'NOTIFY',
-      payload: {}
-    })
+    dispatch({ type: 'NOTIFY', payload: {} })
   }
 
   const handleUpdateProfile = (e) => {
@@ -45,12 +42,7 @@ const Profile = () => {
     if (password) {
       const errMsg = valid(name, auth.user.email, password, cf_password)
       if (errMsg) {
-        return dispatch({
-          type: 'NOTIFY',
-          payload: {
-            error: errMsg
-          }
-        })
+        return dispatch({ type: 'NOTIFY', payload: { error: errMsg } })
       }
       updatePassword()
     }
@@ -61,28 +53,13 @@ const Profile = () => {
   }
 
   const updatePassword = () => {
-    dispatch({
-      type: 'NOTIFY',
-      payload: {
-        loading: true
-      }
-    })
+    dispatch({ type: 'NOTIFY', payload: { loading: true }})
     patchData('user/resetPassword', { password }, auth.token)
       .then(res => {
         if (res.err) {
-          return dispatch({
-            type: 'NOTIFY',
-            payload: {
-              error: res.err
-            }
-          })
+          return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
         }
-        return dispatch({
-          type: 'NOTIFY',
-          payload: {
-            success: res.msg
-          }
-        })
+        return dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
       })
   }
 
@@ -90,43 +67,23 @@ const Profile = () => {
     const file = e.target.files[0]
 
     if (!file) {
-      return dispatch({
-        type: 'NOTIFY',
-        payload: {
-          error: 'File does not exist.'
-        }
-      })
+      return dispatch({ type: 'NOTIFY', payload: { error: 'File does not exist.' } })
     }
 
     // 1Mb
     if (file.size > 1024 * 1024) {
-      return dispatch({
-        type: 'NOTIFY',
-        payload: {
-          error: 'The largest image size is 1Mb.'
-        }
-      })
+      return dispatch({ type: 'NOTIFY', payload: { error: 'The largest image size is 1Mb.' } })
     }
 
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
-      return dispatch({
-        type: 'NOTIFY',
-        payload: {
-          error: 'Image format is incorrect.'
-        }
-      })
+      return dispatch({ type: 'NOTIFY', payload: { error: 'Image format is incorrect.' } })
     }
     setData({ ...data, avatar: file })
   }
 
   const updateInfo = async () => {
     let media;
-    dispatch({
-      type: 'NOTIFY',
-      payload: {
-        loading: true
-      }
-    })
+    dispatch({ type: 'NOTIFY', payload: { loading: true } })
 
     if (avatar) {
       media = await imageUpload([avatar])
@@ -138,12 +95,7 @@ const Profile = () => {
     }, auth.token)
     .then(res => {
       if (res.err) {
-        return dispatch({
-          type: 'NOTIFY',
-          payload: {
-            error: res.err
-          }
-        })
+        return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
       }
 
       // trả về tên user mới để update useEffect ở trên
@@ -155,12 +107,7 @@ const Profile = () => {
         }
       })
       
-      return dispatch({
-        type: 'NOTIFY',
-        payload: {
-          success: res.msg
-        }
-      })
+      return dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
     })
   }
 

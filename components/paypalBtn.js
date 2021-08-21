@@ -22,12 +22,7 @@ const paypalBtn = ({ order }) => {
       },
       onApprove: function (data, actions) {
         // This function captures the funds from the transaction.
-        dispatch({
-          type: 'NOTIFY',
-          payload: {
-            loading: true
-          }
-        })
+        dispatch({ type: 'NOTIFY', payload: { loading: true } })
         return actions.order.capture().then(function (details) {
 
           patchData(`order/payment/ ${order._id}`, {
@@ -35,12 +30,7 @@ const paypalBtn = ({ order }) => {
           }, auth.token)
           .then(res => {
             if (res.err) {
-              return dispatch({
-                type: 'NOTIFY',
-                payload: {
-                  error: res.err
-                }
-              })
+              return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
             }
 
             // Update trả tiền rồi, thêm ngày trả tiền
@@ -52,12 +42,7 @@ const paypalBtn = ({ order }) => {
               method: 'Paypal'
             }, 'ADD_ORDERS'))
 
-            return dispatch({
-              type: 'NOTIFY',
-              payload: {
-                success: res.msg
-              }
-            })
+            return dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
           })
           // This function shows a transaction success message to your buyer.
           alert('Transaction completed by ' + details.payer.name.given_name);

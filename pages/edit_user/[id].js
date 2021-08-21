@@ -19,12 +19,10 @@ const EditUser = () => {
   const [num, setNum] = useState(0)
 
   useEffect(() => {
-    console.log("call again", users)
     users.forEach(user => {
       if (user._id === id) {
         setEditUser(user)
         setCheckAdmin(user.role === 'admin' ? true : false)
-        console.log("call again", user.role)
       }
     })
   }, [users])
@@ -37,21 +35,11 @@ const EditUser = () => {
   const handleSubmit = () => {
     let role = checkAdmin ? 'admin' : 'user'
     if (num % 2 !== 0) {
-      dispatch({
-        type: 'NOTIFY',
-        payload: {
-          loading: true
-        }
-      })
+      dispatch({ type: 'NOTIFY', payload: { loading: true } })
       patchData(`user/${editUser._id}`, { role }, auth.token)
         .then(res => {
           if (res.err) {
-            return dispatch({
-              type: 'NOTIFY',
-              payload: {
-                error: res.err
-              }
-            })
+            return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
           }
 
           dispatch(updateItem(users, editUser._id, {
@@ -59,12 +47,7 @@ const EditUser = () => {
             role
           }, 'ADD_USERS'))
 
-          return dispatch({
-            type: 'NOTIFY',
-            payload: {
-              success: res.msg
-            }
-          })
+          return dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
         })
     }
   }

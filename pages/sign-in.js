@@ -19,39 +19,21 @@ const SignIn = () => {
   const handleChangeInput = e => {
     const { name, value } = e.target
     setUserData({ ...userData, [name]: value })
-    dispatch({
-      type: 'NOTIFY',
-      payload: {}
-    })
+    dispatch({ type: 'NOTIFY', payload: {} })
   }
 
   const handleSubmit = async e => {
     e.preventDefault()
-    dispatch({
-      type: 'NOTIFY',
-      payload: {
-        loading: true
-      }
-    })
+    dispatch({ type: 'NOTIFY', payload: { loading: true } })
 
     const res = await postData('auth/login', userData)
     if (res.err) {
       return (
-        dispatch({
-          type: 'NOTIFY',
-          payload: {
-            error: res.err
-          }
-        })
+        dispatch({ type: 'NOTIFY', payload: { error: res.err } })
       )
     }
 
-    dispatch({
-      type: 'NOTIFY',
-      payload: {
-        success: res.msg
-      }
-    })
+    dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
 
     dispatch({
       type: 'AUTH',

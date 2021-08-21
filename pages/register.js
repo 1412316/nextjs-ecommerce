@@ -19,10 +19,7 @@ const Register = () => {
   const handleChangeInput = e => {
     const { name, value } = e.target
     setUserData({ ...userData, [name]: value })
-    dispatch({
-      type: 'NOTIFY',
-      payload: {}
-    })
+    dispatch({ type: 'NOTIFY', payload: {} })
   }
 
   const handleSubmit = async e => {
@@ -30,40 +27,20 @@ const Register = () => {
     const errMsg = valid(name, email, password, cf_password)
     if (errMsg) {
       return (
-        dispatch({
-          type: 'NOTIFY',
-          payload: {
-            error: errMsg
-          }
-        })
+        dispatch({ type: 'NOTIFY', payload: { error: errMsg } })
       )
     }
 
-    dispatch({
-      type: 'NOTIFY',
-      payload: {
-        loading: true
-      }
-    })
+    dispatch({ type: 'NOTIFY', payload: { loading: true } })
 
     const res = await postData('auth/register', userData)
     if (res.err) {
       return (
-        dispatch({
-          type: 'NOTIFY',
-          payload: {
-            error: res.err
-          }
-        })
+        dispatch({ type: 'NOTIFY', payload: { error: res.err } })
       )
     }
     return (
-      dispatch({
-        type: 'NOTIFY',
-        payload: {
-          success: res.msg
-        }
-      })
+      dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
     )
   }
 

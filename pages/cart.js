@@ -48,10 +48,7 @@ const Cart = () => {
             })
           }
         }
-        dispatch({
-          type: 'ADD_CART',
-          payload: newArr
-        })
+        dispatch({ type: 'ADD_CART', payload: newArr })
       }
 
       updateCart()
@@ -60,12 +57,7 @@ const Cart = () => {
 
   const handlePayment = async () => {
     if (!address || !mobile) {
-      return dispatch({
-        type: 'NOTIFY',
-        payload: {
-          error: 'Please add your address and mobile.'
-        }
-      })
+      return dispatch({ type: 'NOTIFY', payload: { error: 'Please add your address and mobile.' } })
     }
 
     let newCart = []
@@ -78,51 +70,25 @@ const Cart = () => {
 
     if (newCart.length < cart.length) {
       setCallBack(!callBack)
-      return dispatch({
-        type: 'NOTIFY',
-        payload: {
-          error: 'The product is out of stock or the quantity is insufficent.'
-        }
-      })
+      return dispatch({ type: 'NOTIFY', payload: { error: 'The product is out of stock or the quantity is insufficent.' } })
     }
-    dispatch({
-      type: 'NOTIFY',
-      payload: {
-        loading: true
-      }
-    })
+    dispatch({ type: 'NOTIFY', payload: { loading: true } })
 
     postData('order', { address, mobile, cart, total }, auth.token)
       .then(res => {
         if (res.err) {
-          return dispatch({
-            type: 'NOTIFY',
-            payload: {
-              error: res.err
-            }
-          })
+          return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
         }
 
-        dispatch({
-          type: 'ADD_CART',
-          payload: []
-        })
+        dispatch({ type: 'ADD_CART', payload: [] })
 
         const newOrder = {
           ...res.newOrder,
           user: auth.user
         }
 
-        dispatch({
-          type: 'ADD_ORDERS',
-          payload: [...orders, newOrder]
-        })
-        dispatch({
-          type: 'NOTIFY',
-          payload: {
-            success: res.msg
-          }
-        })
+        dispatch({ type: 'ADD_ORDERS', payload: [...orders, newOrder] })
+        dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
         return router.push(`/order/${res.newOrder._id}`)
       })
   }

@@ -17,10 +17,7 @@ const Notify = () => {
               title: 'Error'
             }}
             handleShow={() => {
-              dispatch({
-                type: 'NOTIFY',
-                payload: {}
-              })
+              dispatch({ type: 'NOTIFY', payload: {} })
             }}
             bgColor="bg-danger"
           />
@@ -33,10 +30,7 @@ const Notify = () => {
               title: 'Success'
             }}
             handleShow={() => {
-              dispatch({
-                type: 'NOTIFY',
-                payload: {}
-              })
+              dispatch({ type: 'NOTIFY', payload: {} })
             }}
             bgColor="bg-success"
           />
