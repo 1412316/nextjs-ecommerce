@@ -15,31 +15,31 @@ const Modal = () => {
     deleteData(`user/${item.id}`, auth.token)
       .then(res => {
         if (res.err) {
-          return dispatch({ type: 'NOTIFY', payload: { error: res.err }})
+          return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
         }
-        return dispatch({ type: 'NOTIFY', payload: { success: res.msg }})
+        return dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
       })
   }
 
   const deleteCategories = (item) => {
-    dispatch(deleteItem(item.data, item.id, item.type))
     deleteData(`categories/${item.id}`, auth.token)
       .then(res => {
         if (res.err) {
-          return dispatch({ type: 'NOTIFY', payload: { error: res.err }})
+          return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
         }
-        return dispatch({ type: 'NOTIFY', payload: { success: res.msg }})
+        dispatch(deleteItem(item.data, item.id, item.type))
+        return dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
       })
   }
 
   const deleteProduct = (item) => {
-    dispatch({ type: 'NOTIFY', payload: { loading: true }})
+    dispatch({ type: 'NOTIFY', payload: { loading: true } })
     deleteData(`product/${item.id}`, auth.token)
       .then(res => {
         if (res.err) {
-          return dispatch({ type: 'NOTIFY', payload: { error: res.err }})
+          return dispatch({ type: 'NOTIFY', payload: { error: res.err } })
         }
-        dispatch({ type: 'NOTIFY', payload: { success: res.msg }})
+        dispatch({ type: 'NOTIFY', payload: { success: res.msg } })
         return router.push('/')
       })
   }
@@ -79,7 +79,7 @@ const Modal = () => {
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={handleSubmit}>Yes</button>
-            <button type="button" className="btn btn-primary"data-bs-dismiss="modal">Cancel</button>
+            <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
           </div>
         </div>
       </div>
