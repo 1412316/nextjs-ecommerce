@@ -52,15 +52,11 @@ const ProductItem = ({ product, handleCheck }) => {
     )
   }
 
-  if (!auth.user) {
-    return null
-  }
-
   return (
     <div className="card" style={{ width: "18rem" }}>
       {auth.user && auth.user.role === 'admin' && (
         <input type="checkbox" checked={product.checked} className="position-asolute"
-          style={{ height: '20px', width: '20px'}} onChange={() => handleCheck(product._id)}
+          style={{ height: '20px', width: '20px' }} onChange={() => handleCheck(product._id)}
         />
       )}
       <img src={product.images[0].url} className="card-img-top" alt={product.images[0].url} />

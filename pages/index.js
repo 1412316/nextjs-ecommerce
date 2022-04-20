@@ -6,6 +6,7 @@ import { DataContext } from '../store/GlobalState'
 import { getData } from '../utils/fetchData'
 import ProductItem from '../components/product/ProductItem'
 import filterSearch from '../utils/filterSearch'
+import Filter from '../components/Filter'
 
 const Home = (props) => {
   const [products, setProducts] = useState(props.products)
@@ -25,9 +26,9 @@ const Home = (props) => {
     if (Object.keys(router.query).length === 0) {
       setPage(1)
     }
-    else {
-      setPage(Number(router.query.page))
-    }
+    // else {
+    //   setPage(Number(router.query.page))
+    // }
   }, [router.query])
 
   const handleCheck = (id) => {
@@ -64,7 +65,7 @@ const Home = (props) => {
 
   const handleLoadmore = () => {
     setPage(page + 1)
-    filterSearch({router, page: page + 1})
+    filterSearch({ router, page: page + 1 })
   }
 
   return (
@@ -72,6 +73,9 @@ const Home = (props) => {
       <Head>
         <title>Home page</title>
       </Head>
+
+      <Filter state={state} />
+
       {auth.user && auth.user.role === 'admin' && (
         <div className="delete_all btn btn-danger mt-2" style={{ marginBottom: '-10px' }}>
           <input type="checkbox" checked={isCheck} onChange={handleCheckAll}

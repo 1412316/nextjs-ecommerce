@@ -48,7 +48,7 @@ const updateProduct = async (req, res) => {
     }
 
     await Products.findOneAndUpdate({ _id: id }, {
-      title, price, inStock, description, content, category, images
+      title: title.toLowerCase(), price, inStock, description, content, category, images
     })
 
     res.json({ msg: 'Success! Updated a product.'})

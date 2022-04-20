@@ -60,12 +60,12 @@ const Users = () => {
                     data-bs-target="#exampleModal"
                     onClick={() => dispatch({
                       type: 'ADD_MODAL',
-                      payload: {
+                      payload: [{
                         data: users,
                         id: user._id,
                         title: user.name,
                         type: 'ADD_USERS'
-                      }
+                      }]
                     })}
                   ></i>
                   )
